@@ -1,8 +1,7 @@
 {
   "$schema": "https://unpkg.com/graphql-config@4.3.0/config-schema.json",
-  "schema": "schema.graphql",
-  "documents": ["client/src/**/*.js"],
-  "exclude": ["*.gen.d.ts"],
+  "schema": ["schema.graphql"],
+  "documents": ["client/src/**/*.js", "!*.ts"],
   "extensions": {
     "codegen": {
       "config": {
