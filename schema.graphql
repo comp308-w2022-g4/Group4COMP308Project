@@ -1,0 +1,24 @@
+"""
+Possible values for the role of a registered user
+"""
+enum UserRole {
+  NURSE
+  PATIENT
+}
+
+type User {
+  _id: ID!
+  email: String!
+  role: UserRole!
+}
+
+type Query {
+  """
+  Returns the currently logged in user; null if not logged in
+  """
+  whoAmI: User
+}
+
+type Mutation {
+  signIn(email: String!, password: String!): String
+}

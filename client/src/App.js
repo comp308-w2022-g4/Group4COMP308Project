@@ -1,9 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { gql, useQuery } from "@apollo/client";
+import logo from "./logo.svg";
+import "./App.css";
+
+/**
+ * @type {typeof import("./graphql.gen").DummyDocument}
+ */
+const dummy = gql`
+  query dummy {
+    whoAmI {
+      _id
+      email
+      role
+    }
+  }
+`;
 
 function App() {
+  const query = useQuery(dummy);
+
   return (
     <div className="App">
+      {query.loading
+        ? "Loading..."
+        : query.data
+        ? query.data.whoAmI.email
+        : "User null"}
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
