@@ -21,7 +21,17 @@ declare type ResolverToRootValues<T extends Record<string, any>> = {
   [P in keyof T]: RemoveFirstArg<T[P]>;
 };
 
+type DropNever<T> = {
+  [K in keyof T as T[K] extends never ? never : K]: T[K];
+};
+
 /**
- * Helper type to drop fields `__typename` and `_id` from GraphQL schema types
+ * Helper type to drop some fields from GraphQL schema types
  */
-declare type WithoutGraphQLId<T> = Omit<T, "__typename" | "id">;
+declare type WithoutGraphQL<T extends Record<string, any>> = DropNever<{
+  [K in keyof Required<T>]: K extends "__typename" | "id"
+    ? never
+    : Required<T>[K] extends { __typename?: string } | null
+    ? never
+    : Required<T>[K];
+}>;

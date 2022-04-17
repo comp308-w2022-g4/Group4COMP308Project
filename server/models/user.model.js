@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 /**
- * @typedef {WithoutGraphQLId<import("../graphql/resolvers.gen").User>} GraphQLUser
+ * @typedef {WithoutGraphQL<import("../graphql/resolvers.gen").User>} GraphQLUser
  */
 
 /**
