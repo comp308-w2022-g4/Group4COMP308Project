@@ -47,10 +47,16 @@ const indexFile = path.join(clientBuild, "index.html");
 const clientBuildStatic = path.join(clientBuild, "static");
 
 /**
- * Path to the consolidated GraphQL schema file
- * (`<project>/schema/index.graphql`)
+ * Path to the directory for defining GraphQL schema definitions
+ * (`<project>/server/graphql/`)
  */
-const schema = path.join(project, "schema", "index.gen.graphql");
+const serverGraphQL = path.join(server, "graphql");
+
+/**
+ * Path to the consolidated GraphQL schema file
+ * (`<project>/server/graphql/schema.gen.graphql`)
+ */
+const schema = path.join(serverGraphQL, "schema.gen.graphql");
 
 module.exports = {
   project,
@@ -60,5 +66,6 @@ module.exports = {
   clientBuild,
   indexFile,
   clientBuildStatic,
+  serverGraphQL,
   schema,
 };

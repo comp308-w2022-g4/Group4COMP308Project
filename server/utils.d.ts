@@ -24,4 +24,4 @@ declare type ResolverToRootValues<T extends Record<string, any>> = {
 /**
  * Helper type to drop fields `__typename` and `_id` from GraphQL schema types
  */
-declare type WithoutGraphQLId<T> = Omit<T, "__typename" | "_id">;
+declare type WithoutGraphQLId<T> = Omit<T, "__typename" | "id">;

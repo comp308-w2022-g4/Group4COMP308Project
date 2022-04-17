@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { jwtSecret, jwtDuration } = require("../config");
 const { User } = require("../models");
+const { createUser } = require("./user.controller");
 
 /**
  * @typedef {object} AdditionalPayload
@@ -11,22 +12,6 @@ const { User } = require("../models");
 /**
  * @typedef {jwt.JwtPayload & AdditionalPayload} Payload
  */
-
-/**
- * Filter the decoded payload to only include what we need
- *
- * @param {string | jwt.JwtPayload | undefined} decoded
- * @returns {AdditionalPayload | null}
- */
-const filterPayload = (decoded) => {
-  if (!decoded || typeof decoded === "string") {
-    return null;
-  }
-  if (!decoded.id || typeof decoded.id !== "string") {
-    return null;
-  }
-  return { id: decoded.id };
-};
 
 /**
  * Create and sign a jwt
@@ -70,16 +55,32 @@ const verifyJwt = (token) =>
   // just want to notify the result by returning null.
   new Promise((resolve) => {
     jwt.verify(token, jwtSecret, {}, (error, decoded) => {
-      resolve(!error ? filterPayload(decoded) : null);
+      resolve(
+        error || !decoded || typeof decoded === "string"
+          ? null
+          : !decoded.id || typeof decoded.id !== "string"
+          ? null
+          : { id: decoded.id }
+      );
     });
   });
+
+/**
+ * Hash the password
+ *
+ * @param {string} password
+ * @returns {Promise<string>} hashed password
+ */
+const hashPassword = (password) => bcrypt.hash(password, 10);
+
+/** @typedef {import("../graphql/resolvers.gen").ResolversParentTypes["AuthOutput"]} AuthOutput */
 
 /**
  * Check the credentials and sign a jwt if valid
  *
  * @param {string} email
  * @param {string} password
- * @returns {Promise<string | null>}
+ * @returns {Promise<AuthOutput | null>}
  */
 const authenticate = async (email, password) => {
   // Does the user with the email exist?
@@ -95,7 +96,21 @@ const authenticate = async (email, password) => {
   }
 
   // Issue a token
-  return signJwt({ id: user._id.toHexString() });
+  const token = await signJwt({ id: user._id.toHexString() });
+  return { user, token };
+};
+
+/**
+ * Register a user
+ *
+ * @param {import("../graphql/resolvers.gen").NewUserInput} accountData
+ * @returns {Promise<AuthOutput | null>}
+ */
+const register = async (accountData) => {
+  const user = await createUser(accountData, hashPassword);
+  if (!user) return null;
+  const token = await signJwt({ id: user._id.toHexString() });
+  return { user, token };
 };
 
 /**
@@ -133,5 +148,6 @@ const parseUserMiddleware = async (request, response, next) => {
 
 module.exports = {
   authenticate,
+  register,
   parseUserMiddleware,
 };

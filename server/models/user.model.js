@@ -44,6 +44,7 @@ const userSchema = new mongoose.Schema({
   provider: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    index: 1,
   },
 });
 

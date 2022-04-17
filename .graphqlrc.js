@@ -2,7 +2,7 @@
  * Files that contain schema definitions
  * @type {import("graphql-config").SchemaPointer}
  */
-const schema = ["schema/*.graphql", "!**/*.gen.graphql"];
+const schema = ["server/graphql/*.graphql.js"];
 
 /**
  * Files that contain operations (i.e., queries and mutations)
@@ -19,12 +19,16 @@ const codegen = {
   config: {
     // Since we are generating `*.d.ts` files, this is needed
     enumsAsTypes: true,
+    // Mapping for custom scalar types
+    scalars: {
+      DateTime: "Date",
+    },
   },
 
   // File generation settings
   generates: {
     // Combined schema file to be read in by the server code
-    "schema/index.gen.graphql": {
+    "server/graphql/schema.gen.graphql": {
       plugins: ["schema-ast", addHeader("#")],
       config: {
         includeDirectives: true,

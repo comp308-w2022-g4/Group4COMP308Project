@@ -9,12 +9,16 @@
     "typecheck": "tsc --build"
   },
   "dependencies": {
+    "@graphql-tools/load-files": "^6.5.3",
+    "@graphql-tools/merge": "^8.2.9",
+    "@graphql-tools/schema": "^8.3.9",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "express-graphql": "^0.12.0",
     "graphql": "^15.8.0",
+    "graphql-date-scalars": "^0.1.4",
     "http-errors": "^1.8.1",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
