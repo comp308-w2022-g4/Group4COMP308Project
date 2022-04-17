@@ -8,7 +8,7 @@ import "./App.css";
 const dummy = gql`
   query dummy {
     whoAmI {
-      _id
+      id
       email
       role
     }
@@ -20,11 +20,7 @@ function App() {
 
   return (
     <div className="App">
-      {query.loading
-        ? "Loading..."
-        : query.data
-        ? query.data.whoAmI.email
-        : "User null"}
+      {query.loading ? "Loading..." : query.data?.whoAmI?.email ?? "User null"}
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

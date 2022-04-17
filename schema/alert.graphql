@@ -1,0 +1,24 @@
+# This is just a demonstration of how we can separate the schema files and work
+# on our own parts without interfering with each other. Feel free to remove this
+# comment when you start working on this.
+
+type Alert {
+  id: ID!
+  message: String!
+  to: User!
+  createdAt: DateTime!
+  readAt: DateTime
+}
+
+type Query {
+  newAlerts: [Alert!]!
+}
+
+type Mutation {
+  """
+  Mark the alerts with the given ids as read
+
+  Returns a list of ids that were successfully marked as read.
+  """
+  markAlertsAsRead(ids: [ID!]!): [ID!]
+}

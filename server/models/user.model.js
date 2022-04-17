@@ -1,25 +1,29 @@
 const mongoose = require("mongoose");
 
 /**
- * @typedef {import("../graphql/resolvers.gen").UserRole} UserRole
+ * @typedef {WithoutGraphQLId<import("../graphql/resolvers.gen").User>} GraphQLUser
+ */
+
+/**
+ * Any additional data that exists in the database
+ * @typedef {object} AdditionalUserData
+ * @property {string} password - hashed password
+ * @property {mongoose.Types.ObjectId} provider - healthcare provider of the patient
  */
 
 /**
  * Structure of the data of a registered user
- * @typedef {object} UserData
- * @property {string} email
- * @property {string} password
- * @property {UserRole} role
+ * @typedef {GraphQLUser & AdditionalUserData} UserData
  */
 
 /**
  * Mongoose document of a registered user
- * @typedef {mongoose.HydratedDocument.<UserData>} UserDoc
+ * @typedef {mongoose.HydratedDocument<UserData>} UserDoc
  */
 
 /**
  * Mongoose schema of a registered user
- * @type {mongoose.Schema.<UserData>}
+ * @type {mongoose.Schema<UserData>}
  */
 const userSchema = new mongoose.Schema({
   email: {
@@ -37,7 +41,14 @@ const userSchema = new mongoose.Schema({
     enum: ["NURSE", "PATIENT"],
     default: "PATIENT",
   },
+  provider: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
+
+// Just to help out GraphQL, but not necessary
+userSchema.virtual("__typename").get(() => "User");
 
 /**
  * Mongoose model of a registered user

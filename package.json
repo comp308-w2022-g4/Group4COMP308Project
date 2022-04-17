@@ -6,6 +6,7 @@
     "server"
   ],
   "scripts": {
+    "postinstall": "npm run build:graphql",
     "start": "npm -w server start",
     "dev:client": "npm -w client start",
     "dev:server": "run-p dev:graphql dev:server-only",
@@ -14,7 +15,9 @@
     "build": "npm-run-all -s build:graphql -p build:server build:client",
     "build:graphql": "graphql-codegen",
     "build:server": "npm -w server run build",
-    "build:client": "npm -w client run build"
+    "build:client": "npm -w client run build",
+    "typecheck": "npm --workspaces --if-exists run typecheck",
+    "pretypecheck": "npm run build:graphql"
   },
   "repository": {
     "type": "git",
@@ -26,6 +29,7 @@
   "devDependencies": {
     "@graphql-codegen/add": "^3.1.1",
     "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/schema-ast": "^2.4.1",
     "@graphql-codegen/typed-document-node": "^2.2.8",
     "@graphql-codegen/typescript": "^2.4.8",
     "@graphql-codegen/typescript-operations": "^2.3.5",

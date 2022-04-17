@@ -2,10 +2,9 @@ const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
-const { db, port, paths } = require("./config");
+const { isProduction, db, port, paths } = require("./config");
+const { parseUserMiddleware } = require("./controllers/auth.controller");
 const { graphQLSchema, rootValue } = require("./graphql");
-
-const isProduction = process.env.NODE_ENV === "production";
 
 // Start to establish database connection
 mongoose.connect(db, (error) => {
@@ -45,6 +44,9 @@ app.use("/", express.static(paths.clientBuild));
 
 // Request body parsers
 app.use(express.json(), express.urlencoded({ extended: true }));
+
+// Authentication check
+app.use(parseUserMiddleware);
 
 // Register request handler for GraphQL requests
 app.use(

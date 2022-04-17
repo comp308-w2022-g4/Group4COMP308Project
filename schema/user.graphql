@@ -1,0 +1,62 @@
+"""
+Possible values for the role of a registered user
+"""
+enum UserRole {
+  NURSE
+  PATIENT
+}
+
+"""
+A registered user
+"""
+type User {
+  id: ID!
+  email: String!
+  role: UserRole!
+}
+
+type Query {
+  """
+  Returns the currently logged in user; null if not logged in
+  """
+  whoAmI: User
+
+  """
+  Get a list of patients in charge of the requester
+
+  Returns null if the user is not a nurse
+  """
+  myPatients: [User!]
+}
+
+"""
+Minimal information needed for registering a new user
+"""
+input NewUserBasicInput {
+  email: String!
+  password: String!
+  role: UserRole
+}
+
+"""
+Additional health information about a user
+"""
+input UserHealthDetailsInput {
+  height: Float
+}
+
+# Mutation operations regarding user info
+type Mutation {
+  """
+  Register a new user
+  """
+  register(
+    accountData: NewUserBasicInput!
+    healthDetails: UserHealthDetailsInput
+  ): User
+
+  """
+  Request to be authorized and get a jwt
+  """
+  signIn(email: String!, password: String!): String
+}

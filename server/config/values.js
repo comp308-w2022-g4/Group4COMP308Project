@@ -3,8 +3,20 @@ const paths = require("./paths");
 
 dotenv({ path: paths.envFile });
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const port = process.env.PORT || 3001;
 
 const db = process.env.DB || "mongodb://localhost/group4-comp308-project";
 
-module.exports = { port, db };
+const jwtSecret = process.env.JWT_SECRET || "eXaMpLeSeCrEt";
+
+const jwtDuration = process.env.JWT_MAX_AGE || (isProduction ? "7d" : "1h");
+
+module.exports = {
+  isProduction,
+  port,
+  db,
+  jwtSecret,
+  jwtDuration,
+};
