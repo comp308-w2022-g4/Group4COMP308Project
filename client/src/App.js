@@ -2,6 +2,7 @@ import { Route, Switch } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
 
 export default function App() {
@@ -10,10 +11,13 @@ export default function App() {
       <header>
         <NavBar />
       </header>
-      <main className="container pt-5">
+      <main className="container mt-5 py-5">
         <Switch>
           <Route path="/sign-in">
             <SignIn />
+          </Route>
+          <Route path="/register">
+            <Register />
           </Route>
           <Route path="/" exact>
             <Home />

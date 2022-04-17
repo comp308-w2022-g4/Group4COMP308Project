@@ -37,7 +37,7 @@ export default function NavBar() {
   }, [apolloClient, history]);
 
   return (
-    <RBNavbar bg="dark" variant="dark" expand="md" sticky="top">
+    <RBNavbar bg="dark" variant="dark" expand="md" fixed="top">
       <Container>
         <RBNavbar.Brand>App Name</RBNavbar.Brand>
         <RBNavbar.Toggle aria-controls="navbar-collapsed" />

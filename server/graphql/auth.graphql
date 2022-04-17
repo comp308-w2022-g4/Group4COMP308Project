@@ -12,6 +12,8 @@ input NewUserInput {
   email: String!
   password: String!
   role: UserRole
+  firstName: String!
+  lastName: String!
 }
 
 type AuthOutput {

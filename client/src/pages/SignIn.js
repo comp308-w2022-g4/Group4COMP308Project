@@ -1,7 +1,7 @@
-import { gql, useApolloClient, useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { useCallback, useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { setAuthToken } from "../auth";
 
 /** @type {typeof import("../graphql.gen").SignInDocument} */
@@ -14,8 +14,7 @@ const SIGN_IN_MUTATION = gql`
 `;
 
 export default function SignIn() {
-  const apolloClient = useApolloClient();
-  const [signIn, { loading }] = useMutation(SIGN_IN_MUTATION);
+  const [signIn, { loading, client }] = useMutation(SIGN_IN_MUTATION);
   const [error, setError] = useState("");
   const history = useHistory();
 
@@ -50,15 +49,15 @@ export default function SignIn() {
         if (result.data?.signIn?.token) {
           setAuthToken(result.data.signIn.token);
           history.replace("/");
-          await apolloClient.refetchQueries({ include: ["WhoAmI"] });
+          await client.refetchQueries({ include: ["WhoAmI"] });
         } else {
           setError("Invalid credentials.");
         }
       } catch {
-        /* no-op */
+        setError("Oops, something went wrong.");
       }
     },
-    [apolloClient, history, signIn]
+    [client, history, signIn]
   );
 
   return (
@@ -84,11 +83,15 @@ export default function SignIn() {
             />
           </Form.Group>
           {!loading && error && <Alert variant="danger">{error}</Alert>}
-          <div className="text-center">
+          <div className="text-center mb-3">
             <Button type="submit" variant="primary">
               Sign In
             </Button>
           </div>
+          <p className="text-center">
+            Do not have an account yet?{" "}
+            <Link to="/register">Register here.</Link>
+          </p>
         </fieldset>
       </Form>
     </>
