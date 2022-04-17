@@ -2,7 +2,7 @@
  * Files that contain schema definitions
  * @type {import("graphql-config").SchemaPointer}
  */
-const schema = ["server/graphql/*.graphql.js"];
+const schema = ["server/graphql/!(*.gen).graphql"];
 
 /**
  * Files that contain operations (i.e., queries and mutations)

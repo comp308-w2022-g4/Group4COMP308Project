@@ -1,23 +1,5 @@
 const controllers = require("../controllers");
 
-module.exports.schema = /* GraphQL */ `
-  extend type User {
-    """
-    The designated healthcare provider for the user
-    """
-    provider: User
-  }
-
-  type Query {
-    """
-    Get a list of patients in charge of the requester
-
-    Returns null if the user is not a nurse
-    """
-    myPatients: [User!]
-  }
-`;
-
 /** @type {import("./resolvers.gen").Resolvers} */
 module.exports.resolvers = {
   User: {
