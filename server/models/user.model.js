@@ -41,6 +41,14 @@ const userSchema = new mongoose.Schema({
     enum: ["NURSE", "PATIENT"],
     default: "PATIENT",
   },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
   provider: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

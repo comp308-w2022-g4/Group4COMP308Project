@@ -1,16 +1,26 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloProvider,
+  from,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
 import { StrictMode } from "react";
 import { render } from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import { apolloAuthMiddleware, apolloUnauthorizedMiddleware } from "./auth";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
+
+const httpLink = new HttpLink({
+  uri: `${document.location.origin}/graphql`,
+});
 
 const client = new ApolloClient({
-  uri: `${document.location.origin}/graphql`,
   cache: new InMemoryCache(),
+  link: from([apolloAuthMiddleware, apolloUnauthorizedMiddleware, httpLink]),
 });
 
 render(

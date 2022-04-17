@@ -130,7 +130,7 @@ const parseUserMiddleware = async (request, response, next) => {
   }
 
   // Get the token value and try to parse the data
-  const token = authHeader.substring("Bearer".length);
+  const token = authHeader.substring("Bearer ".length);
   const payload = await verifyJwt(token);
   if (!payload) {
     return next();
