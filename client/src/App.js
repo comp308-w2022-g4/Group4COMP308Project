@@ -11,6 +11,7 @@ import PatientAlerts from "./pages/PatientEmergencyAlerts";
 import SendEmergencyAlert from "./pages/sendEmergencyAlert";
 import RecordVitals from "./pages/RecordVitals";
 import SearchRecords from "./pages/SearchRecords";
+import Advisor from "./pages/Advisor";
 
 export default function App() {
   return (
@@ -40,6 +41,9 @@ export default function App() {
           </Route>
           <Route path="/past-records">
             <SearchRecords />
+          </Route>
+          <Route path="/advisor">
+            <Advisor />
           </Route>
           <Route path="/" exact>
             <Home />

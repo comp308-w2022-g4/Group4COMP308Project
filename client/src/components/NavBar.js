@@ -37,7 +37,7 @@ export default function NavBar() {
   }, [apolloClient, history]);
 
   return (
-    <RBNavbar bg="dark" variant="dark" expand="md" fixed="top">
+    <RBNavbar bg="dark" variant="dark" expand="lg" fixed="top">
       <Container>
         <RBNavbar.Brand>Hospital Manager</RBNavbar.Brand>
         <RBNavbar.Toggle aria-controls="navbar-collapsed" />

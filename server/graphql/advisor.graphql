@@ -30,17 +30,17 @@ input PredictionData {
   """
   Blood pressure while resting (unit: `mmHg`)
   """
-  restingBloodPressure: Int!
+  restingBloodPressure: Float!
 
   """
   Cholesterol (unit: `mg/dl`)
   """
-  cholesterol: Int!
+  cholesterol: Float!
 
   """
   Maximum heart rate
   """
-  maxHeartRate: Int!
+  maxHeartRate: Float!
 }
 
 type PredictionResults {
