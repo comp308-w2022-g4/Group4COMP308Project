@@ -13,4 +13,6 @@ type Mutation {
     temperature: String!
     respiratoryRate: String!
   ): DailyINFOrmResult
+
+  sendEmergencyAlert(reason: String): Boolean!
 }

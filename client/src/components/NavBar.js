@@ -49,6 +49,25 @@ export default function NavBar() {
             <Nav.Link as={NavLink} to="/about">
               About
             </Nav.Link>
+            {whoAmI.loading ? (
+              // Loading state
+              <Spinner animation="border" variant="primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            ) : whoAmI.data?.whoAmI?.role === "NURSE" ? (
+              // When signed in
+              <>
+                <NavLink to="/send-tip" className="navbar-text me-3">
+                  SEND TIP
+                </NavLink>
+              </>
+            ) : whoAmI.data?.whoAmI?.role === "PATIENT" ? (
+              <NavLink to="/daily-tip" className="navbar-text me-3">
+                VIEW DAILY TIPS
+              </NavLink>
+            ) : (
+              <></>
+            )}
             <Nav.Link as={NavLink} to="/DailyINFOrm">
               Daily Information (Patient)
             </Nav.Link>
