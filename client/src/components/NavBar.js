@@ -41,7 +41,7 @@ export default function NavBar() {
     <RBNavbar bg="dark" variant="dark" expand="lg" fixed="top">
       <Container>
         <RBNavbar.Brand>
-        <img src="/4.png" width="95" height="50" alt=""/>
+          <img src="/4.png" width="95" height="50" alt="" />
         </RBNavbar.Brand>
         <RBNavbar.Toggle aria-controls="navbar-collapsed" />
         <RBNavbar.Collapse id="navbar-collapsed">
@@ -55,10 +55,6 @@ export default function NavBar() {
             {!whoAmI.loading && whoAmI.data?.whoAmI && (
               // Only show when the user is signed in
               <>
-                <Nav.Link as={NavLink} to="/advisor">
-                  AI Advisor
-                </Nav.Link>
-
                 {/* Links that are specialized for each role */}
                 {whoAmI.data.whoAmI.role === "NURSE" ? (
                   // When signed in as a nurse
@@ -73,6 +69,9 @@ export default function NavBar() {
                 ) : whoAmI.data.whoAmI.role === "PATIENT" ? (
                   // When signed in as a patient
                   <>
+                    <Nav.Link as={NavLink} to="/advisor">
+                      AI Advisor
+                    </Nav.Link>
                     <Nav.Link as={NavLink} to="/daily-tip">
                       View Daily Tips
                     </Nav.Link>
