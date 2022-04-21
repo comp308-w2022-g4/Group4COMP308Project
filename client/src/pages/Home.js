@@ -16,11 +16,16 @@ export default function Home() {
   return (
     <>
       <h1 className="mb-5">Welcome</h1>
+
       {signedIn.loading ? (
+        // Loading the auth state
         <p>Loading...</p>
       ) : signedIn.data?.whoAmI?.id ? (
+        // The user is signed in
         <>
+          {/* Contents that differ for each role */}
           {signedIn.data.whoAmI.role === "NURSE" ? (
+            // Signed in as a nurse
             <div className="container px-4 py-5">
               <h2>Nurse Control Panel</h2>
               <Container>
@@ -39,13 +44,14 @@ export default function Home() {
               </Container>
             </div>
           ) : (
+            // Signed in as a patient
             <p>You are logged in as a patient.</p>
           )}
         </>
       ) : (
+        // The user is not signed in
         <p>Please sign in to use our service.</p>
       )}
     </>
   );
 }
-<h2>https://www.youtube.com/watch?v=inpok4MKVLM</h2>;
