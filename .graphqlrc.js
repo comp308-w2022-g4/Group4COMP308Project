@@ -54,6 +54,7 @@ const codegen = {
         mappers: {
           User: "../models/user.model#UserDoc",
           Message: "../models/message.model#MessageDoc",
+          Alert: "../models/alert.model#AlertDoc",
         },
       },
     },
