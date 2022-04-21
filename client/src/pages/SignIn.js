@@ -9,6 +9,9 @@ const SIGN_IN_MUTATION = gql`
   mutation SignIn($email: String!, $password: String!) {
     signIn(email: $email, password: $password) {
       token
+      user {
+        role
+      }
     }
   }
 `;
@@ -46,9 +49,11 @@ export default function SignIn() {
           );
           return;
         }
-        if (result.data?.signIn?.token) {
+        if (result.data?.signIn) {
           setAuthToken(result.data.signIn.token);
-          history.replace("/");
+          history.replace(
+            result.data.signIn.user.role === "NURSE" ? "/" : "/account"
+          );
           await client.refetchQueries({ include: ["WhoAmI"] });
         } else {
           setError("Invalid credentials.");

@@ -12,6 +12,7 @@ import SendEmergencyAlert from "./pages/sendEmergencyAlert";
 import RecordVitals from "./pages/RecordVitals";
 import SearchRecords from "./pages/SearchRecords";
 import Advisor from "./pages/Advisor";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -32,6 +33,9 @@ export default function App() {
           </Route>
           <Route path="/register">
             <Register />
+          </Route>
+          <Route path="/account">
+            <Profile />
           </Route>
           <Route path="/DailyINFOrm">
             <DailyINFOrm />
@@ -55,7 +59,7 @@ export default function App() {
             <SendEmergencyAlert />
           </Route>
           <Route>
-            <Profile />
+            <NotFound />
           </Route>
         </Switch>
       </main>

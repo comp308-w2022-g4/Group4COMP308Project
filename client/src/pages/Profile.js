@@ -1,17 +1,9 @@
-import {} from "react-router-dom";
 import { Button } from "react-bootstrap";
 import meditation from "../images/Meditation.jpg";
 import excercise from "../images/excercise.jpg";
 import Game from "../images/game.jpg";
 
 export default function Profile() {
-  document.getElementById("Meditation")?.addEventListener("click", () => {
-    window.location.href = "https://www.youtube.com/watch?v=inpok4MKVLM";
-  });
-
-  document.getElementById("Excercise")?.addEventListener("click", () => {
-    window.location.href = "https://youtu.be/q2NZyW5EP5A";
-  });
   return (
     <>
       <h1 className="mb-5">Profile</h1>
