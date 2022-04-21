@@ -1,10 +1,8 @@
 import { gql, useMutation } from "@apollo/client";
 import { useCallback, useState } from "react";
-import { Alert, Button, Col, Form, Row } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
-import { setAuthToken } from "../auth";
+import { Alert, Button, Form } from "react-bootstrap";
 
-/** @type {typeof import("../graphql.gen").RegisterDocument} */
+/** @type {typeof import("../graphql.gen").DailyInfOrmDocument} */
 const DAILYINFO_MUTATION = gql`
   mutation DailyINFOrm(
     $pulseRate: String!
@@ -14,12 +12,11 @@ const DAILYINFO_MUTATION = gql`
     $respiratoryRate: String!
   ) {
     dailyINFOrm(
-        pulseRate: $pulseRate
-        bloodPressure: $bloodPressure
-        weight: $weight
-        temperature: $temperature
-        respiratoryRate: $respiratoryRate
-      
+      pulseRate: $pulseRate
+      bloodPressure: $bloodPressure
+      weight: $weight
+      temperature: $temperature
+      respiratoryRate: $respiratoryRate
     ) {
       token
     }
@@ -27,9 +24,8 @@ const DAILYINFO_MUTATION = gql`
 `;
 
 export default function DailyINFOrm() {
-  const [dailyINFOrm, { loading, client }] = useMutation(DAILYINFO_MUTATION);
+  const [dailyINFOrm, { loading }] = useMutation(DAILYINFO_MUTATION);
   const [error, setError] = useState("");
-  const history = useHistory();
 
   /** @type {import("react").FormEventHandler<HTMLFormElement>} */
   const onSubmit = useCallback(
@@ -44,7 +40,13 @@ export default function DailyINFOrm() {
       const temperature = form.get("temperature");
       const respiratoryRate = form.get("respiratoryRate");
 
-      if (!pulseRate || !bloodPressure || !weight || !temperature || !respiratoryRate) {
+      if (
+        !pulseRate ||
+        !bloodPressure ||
+        !weight ||
+        !temperature ||
+        !respiratoryRate
+      ) {
         setError("All fields are required.");
         return;
       }
@@ -62,7 +64,13 @@ export default function DailyINFOrm() {
 
       try {
         const result = await dailyINFOrm({
-          variables: { pulseRate, bloodPressure, weight, temperature, respiratoryRate },
+          variables: {
+            pulseRate,
+            bloodPressure,
+            weight,
+            temperature,
+            respiratoryRate,
+          },
         });
         if (result.errors && result.errors.length > 0) {
           setError(
@@ -70,10 +78,9 @@ export default function DailyINFOrm() {
           );
           return;
         }
-        if (result.data?.dailyINFOrm?.token) {
-          setAuthToken(result.data.register.token);
-          history.replace("/");
-          await client.refetchQueries({ include: ["WhoAmI"] });
+        if (result.data?.dailyINFOrm) {
+          // TODO handle submit result
+          console.log(result.data.dailyINFOrm.token);
         } else {
           setError("Invalid values.");
         }
@@ -81,7 +88,7 @@ export default function DailyINFOrm() {
         setError("Oops, something went wrong.");
       }
     },
-    [client, history, dailyINFOrm]
+    [dailyINFOrm]
   );
 
   return (
@@ -106,10 +113,10 @@ export default function DailyINFOrm() {
               aria-describedby="pulseRate-description"
             />
             <Form.Text id="pulseRate-description">
-            Please enter your pulse rate as indicated by the nurse.
+              Please enter your pulse rate as indicated by the nurse.
             </Form.Text>
           </Form.Group>
-          
+
           <Form.Group className="mb-3" controlId="blood-Pressure">
             <Form.Label>Blood Pressure</Form.Label>
             <Form.Control
@@ -134,7 +141,7 @@ export default function DailyINFOrm() {
               aria-describedby="weight-description"
             />
             <Form.Text id="weight-description">
-            Please enter your weight as indicated by the nurse.
+              Please enter your weight as indicated by the nurse.
             </Form.Text>
           </Form.Group>
 
@@ -148,7 +155,7 @@ export default function DailyINFOrm() {
               aria-describedby="temp-description"
             />
             <Form.Text id="temp-description">
-            Please enter your temperature in C° as indicated by the nurse.
+              Please enter your temperature in C° as indicated by the nurse.
             </Form.Text>
           </Form.Group>
 
@@ -162,10 +169,10 @@ export default function DailyINFOrm() {
               aria-describedby="pulseRate-description"
             />
             <Form.Text id="pulseRate-description">
-            Please enter only the number of heart pulses indicated by the nurse.
+              Please enter only the number of heart pulses indicated by the
+              nurse.
             </Form.Text>
           </Form.Group>
-
 
           {!loading && error && <Alert>{error}</Alert>}
           <div className="text-center mb-3">
