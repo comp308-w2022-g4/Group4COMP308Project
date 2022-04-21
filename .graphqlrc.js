@@ -53,6 +53,7 @@ const codegen = {
         // Put your database document types here
         mappers: {
           User: "../models/user.model#UserDoc",
+          Message: "../models/message.model#MessageDoc",
         },
       },
     },
