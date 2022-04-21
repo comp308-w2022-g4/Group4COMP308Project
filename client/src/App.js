@@ -1,11 +1,14 @@
 import { Route, Switch } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
 import Register from "./pages/Register";
+import DailyINFOrm from "./pages/DailyINFOrm";
 import SignIn from "./pages/SignIn";
 import SendTip from "./pages/SendTip";
 import DailyTips from "./pages/DailyTips";
+import PatientAlerts from "./pages/PatientEmergencyAlerts";
+import SendEmergencyAlert from "./pages/sendEmergencyAlert";
 
 export default function App() {
   return (
@@ -27,11 +30,20 @@ export default function App() {
           <Route path="/register">
             <Register />
           </Route>
+          <Route path="/DailyINFOrm">
+            <DailyINFOrm />
+          </Route>
           <Route path="/" exact>
             <Home />
           </Route>
+          <Route path="/PatientEmergencyAlerts">
+            <PatientAlerts />
+          </Route>
+          <Route path="/sendEmergencyAlert">
+            <SendEmergencyAlert />
+          </Route>
           <Route>
-            <NotFound />
+            <Profile />
           </Route>
         </Switch>
       </main>
