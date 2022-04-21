@@ -28,7 +28,7 @@ train();
  */
 function getModel() {
   const model = tf.sequential({
-    name: "heart-desease",
+    name: "heart-disease",
     layers: [
       tf.layers.dense({
         inputShape: [8],

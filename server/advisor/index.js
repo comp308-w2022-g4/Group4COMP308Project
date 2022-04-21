@@ -2,7 +2,7 @@ const tf = require("@tensorflow/tfjs-node");
 const { MODEL_FILE_URL, toInput } = require("./base");
 
 /**
- * @param {import("./data").DataEntry} data
+ * @param {import("../graphql/resolvers.gen").PredictionData} data
  * @returns {Promise<number>}
  */
 module.exports.makePrediction = async (data) => {
@@ -37,7 +37,7 @@ const dataFieldLevelMap = {
 };
 
 /**
- * @param {import("./data").DataEntry} data
+ * @param {import("../graphql/resolvers.gen").PredictionData} data
  * @return {import("./data").RawDataEntry}
  */
 module.exports.entryToRaw = (data) => ({
