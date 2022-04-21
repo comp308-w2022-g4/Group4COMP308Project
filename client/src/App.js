@@ -1,8 +1,9 @@
 import { Route, Switch } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
 import Register from "./pages/Register";
+import DailyINFOrm from "./pages/DailyINFOrm";
 import SignIn from "./pages/SignIn";
 
 export default function App() {
@@ -19,11 +20,14 @@ export default function App() {
           <Route path="/register">
             <Register />
           </Route>
+          <Route path="/DailyINFOrm">
+            <DailyINFOrm />
+          </Route>
           <Route path="/" exact>
             <Home />
           </Route>
           <Route>
-            <NotFound />
+            <Profile />
           </Route>
         </Switch>
       </main>

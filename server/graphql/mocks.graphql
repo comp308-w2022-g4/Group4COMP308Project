@@ -1,0 +1,16 @@
+# This file is for creating any mocking schema to facilitate independent
+# development
+
+type DailyINFOrmResult {
+  token: String!
+}
+
+type Mutation {
+  dailyINFOrm(
+    pulseRate: String!
+    bloodPressure: String!
+    weight: String!
+    temperature: String!
+    respiratoryRate: String!
+  ): DailyINFOrmResult
+}
