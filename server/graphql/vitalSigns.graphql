@@ -1,0 +1,16 @@
+input NewVitalsInput {
+  bodyTemperature: Float!
+  heartRate: Float!
+  bloodPressure: Float!
+  respiratoryRate: Float!
+  nurse: ID!
+  patient: ID!
+}
+
+type Query {
+  getVitals(id: ID!): Vitals!
+}
+
+type mutation {
+  recordVitals(vitalsData: NewVitalsInput): Vitals!
+}
