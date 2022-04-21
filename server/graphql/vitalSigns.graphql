@@ -11,6 +11,6 @@ type Query {
   getVitals(id: ID!): Vitals!
 }
 
-type mutation {
+type Mutation {
   recordVitals(vitalsData: NewVitalsInput): Vitals!
 }

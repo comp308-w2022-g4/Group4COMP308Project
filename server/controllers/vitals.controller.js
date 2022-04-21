@@ -17,8 +17,7 @@ module.exports.recordVitals = async (vitals) => {
   );
 };
 
-module.exports.getVitals = async (user, context) => {
-  if (context.user) return null;
+module.exports.getVitals = async (user) => {
   if (user.role !== "PATIENT") return null;
   return Vitals.findOne({ patient: user._id });
 };

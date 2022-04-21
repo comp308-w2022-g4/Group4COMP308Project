@@ -7,7 +7,6 @@ module.exports.resolvers = {
   },
 
   Query: {
-    getVitals: async (_root, _args, context) =>
-      controllers.vitals.getVitals(_args.user, context),
+    getVitals: async (_root, _args) => controllers.vitals.getVitals(_args.user),
   },
 };
