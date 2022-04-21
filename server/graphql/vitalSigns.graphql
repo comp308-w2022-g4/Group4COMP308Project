@@ -1,10 +1,11 @@
 input NewVitalsInput {
-  bodyTemperature: Float!
-  heartRate: Float!
-  bloodPressure: Float!
-  respiratoryRate: Float!
+  bodyTemperature: Float
+  heartRate: Float
+  bloodPressure: Float
+  respiratoryRate: Float
+  firstName: String!
+  lastName: String!
   nurse: ID!
-  patient: ID!
 }
 
 type Query {
@@ -12,5 +13,5 @@ type Query {
 }
 
 type Mutation {
-  recordVitals(vitalsData: NewVitalsInput): Vitals!
+  recordVitals(vitalsData: NewVitalsInput): Vitals
 }

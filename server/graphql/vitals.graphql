@@ -1,9 +1,9 @@
 type Vitals {
   id: ID!
-  bodyTemperature: Float!
-  heartRate: Float!
-  bloodPressure: Float!
-  respiratoryRate: Float!
+  bodyTemperature: Float
+  heartRate: Float
+  bloodPressure: Float
+  respiratoryRate: Float
   nurse: ID!
   patient: ID!
   recorded: DateTime!
