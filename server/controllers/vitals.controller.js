@@ -7,21 +7,6 @@ module.exports.recordVitals = async (vitals) => {
     role: "PATIENT",
   });
   if (user) {
-    const oldVitals = await Vitals.findOne({ patient: user._id });
-    if (oldVitals) {
-      return Vitals.findOneAndUpdate(
-        { patient: user._id },
-        {
-          bodyTemperature: vitals.bodyTemperature,
-          heartRate: vitals.heartRate,
-          bloodPressure: vitals.bloodPressure,
-          respiratoryRate: vitals.respiratoryRate,
-          patient: user._id,
-          nurse: vitals.nurse,
-          recorded: Date.now(),
-        }
-      );
-    }
     return new Vitals({
       bodyTemperature: vitals.bodyTemperature,
       heartRate: vitals.heartRate,
@@ -34,7 +19,18 @@ module.exports.recordVitals = async (vitals) => {
   return null;
 };
 
-module.exports.getVitals = async (user) => {
-  if (user.role !== "PATIENT") return null;
-  return Vitals.findOne({ patient: user._id });
+module.exports.getVitals = async (id) => {
+  return Vitals.findById(id);
+};
+
+module.exports.getPastVitals = async (firstName, lastName) => {
+  const user = await User.findOne({
+    firstName: firstName,
+    lastName: lastName,
+    role: "PATIENT",
+  });
+  if (!user) {
+    return null;
+  }
+  return Vitals.find({ patient: user._id });
 };

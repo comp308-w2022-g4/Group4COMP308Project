@@ -10,6 +10,7 @@ input NewVitalsInput {
 
 type Query {
   getVitals(id: ID!): Vitals!
+  getPastVitals(firstName: String!, lastName: String!): [Vitals]
 }
 
 type Mutation {

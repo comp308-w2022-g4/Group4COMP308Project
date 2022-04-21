@@ -49,6 +49,18 @@ export default function RecordVitals() {
       const heartRate = parseFloat(form.get("heartRate"));
       const bloodPressure = parseFloat(form.get("bloodPressure"));
       const respiratoryRate = parseFloat(form.get("respiratoryRate"));
+      //
+      if (
+        (form.get("bodyTemperature") != "" && !bodyTemperature) ||
+        (form.get("heartRate") && !heartRate) ||
+        (form.get("bloodPressure") && !bloodPressure) ||
+        (form.get("respiratoryRate") && !respiratoryRate)
+      ) {
+        setError(
+          "body temp., heart rate, blood pressure and resp. rate must be valid numbers"
+        );
+        return;
+      }
       const nurse = signedIn.data?.whoAmI?.id;
       //
       if (!firstName || !lastName) {
@@ -84,6 +96,7 @@ export default function RecordVitals() {
     },
     [signedIn.data?.whoAmI?.id, history, record]
   );
+  //
   return (
     <>
       {signedIn.loading ? (
@@ -97,28 +110,28 @@ export default function RecordVitals() {
             onSubmit={OnSubmit}
           >
             <Form.Group controlId="patient-first-name" className="mb-3">
-              <Form.Label></Form.Label>
+              <Form.Label>First Name</Form.Label>
               <Form.Control type="text" name="firstName" />
             </Form.Group>
             <Form.Group controlId="patient-last-name" className="mb-3">
-              <Form.Label></Form.Label>
+              <Form.Label>Last Name</Form.Label>
               <Form.Control type="text" name="lastName" />
             </Form.Group>
             <Form.Group controlId="body-temperature" className="mb-3">
-              <Form.Label>Body Temperature</Form.Label>
-              <Form.Control type="number" name="bodyTemperature" />
+              <Form.Label>Body Temperature (°C)</Form.Label>
+              <Form.Control type="text" name="bodyTemperature" />
             </Form.Group>
             <Form.Group controlId="heart-rate" className="mb-3">
-              <Form.Label>Heart Rate</Form.Label>
-              <Form.Control type="number" name="heartRate" />
+              <Form.Label>Heart Rate (Bpm)</Form.Label>
+              <Form.Control type="text" name="heartRate" />
             </Form.Group>
             <Form.Group controlId="blood-pressure" className="mb-3">
               <Form.Label>Blood Pressure</Form.Label>
-              <Form.Control type="number" name="bloodPressure" />
+              <Form.Control type="text" name="bloodPressure" />
             </Form.Group>
             <Form.Group controlId="respiratoryRate" className="mb-3">
-              <Form.Label>Respiratory Rate</Form.Label>
-              <Form.Control type="number" name="respiratoryRate" />
+              <Form.Label>Respiratory Rate (breaths/min)</Form.Label>
+              <Form.Control type="text" name="respiratoryRate" />
             </Form.Group>
             {!loading && error && <Alert>{error}</Alert>}
             <div className="text-center mb-3">
