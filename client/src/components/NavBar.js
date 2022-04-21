@@ -39,7 +39,7 @@ export default function NavBar() {
   return (
     <RBNavbar bg="dark" variant="dark" expand="md" fixed="top">
       <Container>
-        <RBNavbar.Brand>App Name</RBNavbar.Brand>
+        <RBNavbar.Brand>Medi-Connect</RBNavbar.Brand>
         <RBNavbar.Toggle aria-controls="navbar-collapsed" />
         <RBNavbar.Collapse id="navbar-collapsed">
           <Nav className="me-auto mb-2 mb-md-0">
