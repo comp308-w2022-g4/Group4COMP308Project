@@ -49,6 +49,9 @@ export default function NavBar() {
             <Nav.Link as={NavLink} to="/about">
               About
             </Nav.Link>
+            <Nav.Link as={NavLink} to="/DailyINFOrm">
+              Daily Information (Patient)
+            </Nav.Link>
           </Nav>
 
           <div className="d-flex justify-content-end">

@@ -3,6 +3,7 @@ import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
+import DailyINFOrm from "./pages/DailyINFOrm";
 import SignIn from "./pages/SignIn";
 
 export default function App() {
@@ -18,6 +19,9 @@ export default function App() {
           </Route>
           <Route path="/register">
             <Register />
+          </Route>
+          <Route path="/DailyINFOrm">
+            <DailyINFOrm />
           </Route>
           <Route path="/" exact>
             <Home />
