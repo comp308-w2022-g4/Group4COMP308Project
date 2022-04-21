@@ -5,6 +5,9 @@ import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import DailyINFOrm from "./pages/DailyINFOrm";
 import SignIn from "./pages/SignIn";
+import PatientAlerts from "./pages/PatientEmergencyAlerts";
+import SendEmergencyAlert from "./pages/sendEmergencyAlert";
+
 
 export default function App() {
   return (
@@ -25,6 +28,12 @@ export default function App() {
           </Route>
           <Route path="/" exact>
             <Home />
+          </Route>
+          <Route path="/PatientEmergencyAlerts">
+            <PatientAlerts />
+          </Route>
+          <Route path="/sendEmergencyAlert">
+            <SendEmergencyAlert />
           </Route>
           <Route>
             <Profile />
