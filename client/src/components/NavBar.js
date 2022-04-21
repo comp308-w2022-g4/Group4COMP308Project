@@ -1,3 +1,4 @@
+import React from "react";
 import { gql, useApolloClient, useQuery } from "@apollo/client";
 import { useCallback } from "react";
 import {
@@ -39,7 +40,9 @@ export default function NavBar() {
   return (
     <RBNavbar bg="dark" variant="dark" expand="lg" fixed="top">
       <Container>
-        <RBNavbar.Brand>Hospital Manager</RBNavbar.Brand>
+        <RBNavbar.Brand>
+        <img src="/4.png" width="95" height="50" alt=""/>
+        </RBNavbar.Brand>
         <RBNavbar.Toggle aria-controls="navbar-collapsed" />
         <RBNavbar.Collapse id="navbar-collapsed">
           {/* Navigation links */}
