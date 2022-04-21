@@ -42,6 +42,7 @@ export default function NavBar() {
         <RBNavbar.Brand>App Name</RBNavbar.Brand>
         <RBNavbar.Toggle aria-controls="navbar-collapsed" />
         <RBNavbar.Collapse id="navbar-collapsed">
+          {/* Navigation links */}
           <Nav className="me-auto mb-2 mb-md-0">
             <Nav.Link as={NavLink} to="/" exact>
               Home
@@ -49,36 +50,48 @@ export default function NavBar() {
             <Nav.Link as={NavLink} to="/about">
               About
             </Nav.Link>
-            {whoAmI.loading ? (
-              // Loading state
-              <Spinner animation="border" variant="primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            ) : whoAmI.data?.whoAmI?.role === "NURSE" ? (
-              // When signed in
+
+            {/* Links that differ depending on the auth state */}
+            {!whoAmI.loading && whoAmI.data?.whoAmI && (
+              // Only show when the user is signed in
               <>
-                <NavLink to="/send-tip" className="navbar-text me-3">
-                  SEND TIP
-                </NavLink>
+                <Nav.Link as={NavLink} to="/advisor">
+                  AI Advisor
+                </Nav.Link>
+
+                {/* Links that are specialized for each role */}
+                {whoAmI.data.whoAmI.role === "NURSE" ? (
+                  // When signed in as a nurse
+                  <>
+                    <Nav.Link as={NavLink} to="/send-tip">
+                      Send Daily Tip
+                    </Nav.Link>
+                    <Nav.Link as={NavLink} to="/PatientEmergencyAlerts">
+                      View Emergency Alert
+                    </Nav.Link>
+                  </>
+                ) : whoAmI.data.whoAmI.role === "PATIENT" ? (
+                  // When signed in as a patient
+                  <>
+                    <Nav.Link as={NavLink} to="/daily-tip">
+                      View Daily Tips
+                    </Nav.Link>
+                    <Nav.Link as={NavLink} to="/DailyINFOrm">
+                      Daily Information (Patient)
+                    </Nav.Link>
+                    <Nav.Link as={NavLink} to="/sendEmergencyAlert">
+                      Send Emergency Alert
+                    </Nav.Link>
+                  </>
+                ) : (
+                  // ???
+                  <RBNavbar.Text>Error; please report</RBNavbar.Text>
+                )}
               </>
-            ) : whoAmI.data?.whoAmI?.role === "PATIENT" ? (
-              <NavLink to="/daily-tip" className="navbar-text me-3">
-                VIEW DAILY TIPS
-              </NavLink>
-            ) : (
-              <></>
             )}
-            <Nav.Link as={NavLink} to="/DailyINFOrm">
-              Daily Information (Patient)
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/PatientEmergencyAlerts">
-              View Emergency Alert
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/sendEmergencyAlert">
-              Send Emergency Alert
-            </Nav.Link>
           </Nav>
 
+          {/* Links at the end */}
           <div className="d-flex justify-content-end">
             {whoAmI.loading ? (
               // Loading state
@@ -88,9 +101,9 @@ export default function NavBar() {
             ) : whoAmI.data?.whoAmI?.id ? (
               // When signed in
               <>
-                <NavLink to="/account" className="navbar-text me-3">
+                <RBNavbar.Text as={NavLink} to="/account" className="me-3">
                   {whoAmI.data.whoAmI.firstName}
-                </NavLink>
+                </RBNavbar.Text>
                 <Button variant="outline-danger" onClick={onSignOutClick}>
                   Sign Out
                 </Button>

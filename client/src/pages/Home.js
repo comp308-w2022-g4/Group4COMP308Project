@@ -17,4 +17,3 @@ export default function Home() {
     </>
   );
 }
-<h2>https://www.youtube.com/watch?v=inpok4MKVLM</h2>;
