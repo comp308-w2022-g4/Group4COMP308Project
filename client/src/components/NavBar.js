@@ -33,7 +33,7 @@ export default function NavBar() {
   const onSignOutClick = useCallback(async () => {
     clearAuthToken();
     await apolloClient.resetStore();
-    history.push("/");
+    history.push("/sign-in");
   }, [apolloClient, history]);
 
   return (
@@ -46,9 +46,6 @@ export default function NavBar() {
           <Nav className="me-auto mb-2 mb-md-0">
             <Nav.Link as={NavLink} to="/" exact>
               Home
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/about">
-              About
             </Nav.Link>
 
             {/* Links that differ depending on the auth state */}
