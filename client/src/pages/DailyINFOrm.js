@@ -47,7 +47,7 @@ export default function DailyINFOrm() {
       const respiratoryRate = form.get("respiratoryRate");
 
       if (
-        (form.get("pulseRate") != "" && !pulseRate) ||
+        (form.get("pulseRate") !== "" && !pulseRate) ||
         (form.get("bloodPressure") && !bloodPressure) ||
         (form.get("weight") && !weight) ||
         (form.get("temperature") && !temperature) ||

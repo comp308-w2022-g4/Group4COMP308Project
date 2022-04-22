@@ -9,9 +9,9 @@ input NewDailyInfo {
 }
 
 type Query {
-  getDailyInfo(id: ID!): NewDailyInfo!
+  getDailyInfo(id: ID!): dailyINFO!
 }
 
 type Mutation {
-  dailyINFOrm(generalInfo: NewDailyInfo): NewDailyInfo
+  dailyINFO(generalInfo: NewDailyInfo): dailyINFO
 }
