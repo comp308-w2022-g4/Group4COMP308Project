@@ -1,5 +1,4 @@
 input NewDailyInfo {
-  id: ID!
   pulseRate: String
   bloodPressure: String
   weight: String
@@ -13,5 +12,5 @@ type Query {
 }
 
 type Mutation {
-  dailyINFO(generalInfo: NewDailyInfo): dailyINFO
+  dailyINFOrm(generalInfo: NewDailyInfo): dailyINFO
 }

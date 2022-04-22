@@ -12,14 +12,16 @@ const DAILYINFO_MUTATION = gql`
     $weight: String
     $temperature: String
     $respiratoryRate: String
+    $patient: ID!
   ) {
     dailyINFOrm(
-      generalInfo:{
-      pulseRate: $pulseRate
-      bloodPressure: $bloodPressure
-      weight: $weight
-      temperature: $temperature
-      respiratoryRate: $respiratoryRate
+      generalInfo: {
+        pulseRate: $pulseRate
+        bloodPressure: $bloodPressure
+        weight: $weight
+        temperature: $temperature
+        respiratoryRate: $respiratoryRate
+        patient: $patient
       }
     ) {
       id
@@ -33,18 +35,18 @@ export default function DailyINFOrm() {
   const [error, setError] = useState("");
   const history = useHistory();
 
-  
   const onSubmit = useCallback(
     async (ev) => {
       ev.preventDefault();
       setError("");
 
-      const form = new FormData((ev.target));
+      const form = new FormData(ev.target);
       const pulseRate = form.get("pulseRate");
       const bloodPressure = form.get("bloodPressure");
       const weight = form.get("weight");
       const temperature = form.get("temperature");
       const respiratoryRate = form.get("respiratoryRate");
+      const patient = signedIn.data?.whoAmI?.id;
 
       if (
         (form.get("pulseRate") !== "" && !pulseRate) ||
@@ -52,7 +54,6 @@ export default function DailyINFOrm() {
         (form.get("weight") && !weight) ||
         (form.get("temperature") && !temperature) ||
         (form.get("respiratoryRate") && !respiratoryRate)
-
       ) {
         setError("All fields are required.");
         return;
@@ -77,6 +78,7 @@ export default function DailyINFOrm() {
             weight,
             temperature,
             respiratoryRate,
+            patient,
           },
         });
         if (result.errors && result.errors.length > 0) {
@@ -104,103 +106,101 @@ export default function DailyINFOrm() {
         <p>Loading...</p>
       ) : signedIn.data?.whoAmI?.id ? (
         <>
-
-      <h1 className="mb-5">Daily Information</h1>
-      <Form
-        method="post"
-        className="border rounded mx-3 p-3 text-start"
-        onSubmit={onSubmit}
-      >
-        <fieldset disabled={loading}>
-          <Form.Group
-            className="mb-3"
-            controlId="register-form"
+          <h1 className="mb-5">Daily Information</h1>
+          <Form
+            method="post"
+            className="border rounded mx-3 p-3 text-start"
             onSubmit={onSubmit}
           >
-            <Form.Label>Pulse Rate</Form.Label>
-            <Form.Control
-              type="pulseRate"
-              name="pulseRate"
-              required
-              aria-describedby="pulseRate-description"
-            />
-            <Form.Text id="pulseRate-description">
-              Please enter your pulse rate as indicated by the nurse.
-            </Form.Text>
-          </Form.Group>
+            <fieldset disabled={loading}>
+              <Form.Group
+                className="mb-3"
+                controlId="register-form"
+                onSubmit={onSubmit}
+              >
+                <Form.Label>Pulse Rate</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="pulseRate"
+                  required
+                  aria-describedby="pulseRate-description"
+                />
+                <Form.Text id="pulseRate-description">
+                  Please enter your pulse rate as indicated by the nurse.
+                </Form.Text>
+              </Form.Group>
 
-          <Form.Group className="mb-3" controlId="blood-Pressure">
-            <Form.Label>Blood Pressure</Form.Label>
-            <Form.Control
-              type="bloodPressure"
-              name="bloodPressure"
-              autoComplete="blood-Pressure"
-              required
-              aria-describedby="bloodPressure-description"
-            />
-            <Form.Text id="bloodPressure-description">
-              Please enter your blood pressure as indicated by the nurse.
-            </Form.Text>
-          </Form.Group>
+              <Form.Group className="mb-3" controlId="blood-Pressure">
+                <Form.Label>Blood Pressure</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="bloodPressure"
+                  autoComplete="blood-Pressure"
+                  required
+                  aria-describedby="bloodPressure-description"
+                />
+                <Form.Text id="bloodPressure-description">
+                  Please enter your blood pressure as indicated by the nurse.
+                </Form.Text>
+              </Form.Group>
 
-          <Form.Group className="mb-3" controlId="weight-ind">
-            <Form.Label>Weight</Form.Label>
-            <Form.Control
-              type="weight"
-              name="weight"
-              autoComplete="weight-ind"
-              required
-              aria-describedby="weight-description"
-            />
-            <Form.Text id="weight-description">
-              Please enter your weight as indicated by the nurse.
-            </Form.Text>
-          </Form.Group>
+              <Form.Group className="mb-3" controlId="weight-ind">
+                <Form.Label>Weight</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="weight"
+                  autoComplete="weight-ind"
+                  required
+                  aria-describedby="weight-description"
+                />
+                <Form.Text id="weight-description">
+                  Please enter your weight as indicated by the nurse.
+                </Form.Text>
+              </Form.Group>
 
-          <Form.Group className="mb-3" controlId="temp-ind">
-            <Form.Label>Temperature (C°)</Form.Label>
-            <Form.Control
-              type="temperature"
-              name="temperature"
-              autoComplete="temp-ind"
-              required
-              aria-describedby="temp-description"
-            />
-            <Form.Text id="temp-description">
-              Please enter your temperature in C° as indicated by the nurse.
-            </Form.Text>
-          </Form.Group>
+              <Form.Group className="mb-3" controlId="temp-ind">
+                <Form.Label>Temperature (C°)</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="temperature"
+                  autoComplete="temp-ind"
+                  required
+                  aria-describedby="temp-description"
+                />
+                <Form.Text id="temp-description">
+                  Please enter your temperature in C° as indicated by the nurse.
+                </Form.Text>
+              </Form.Group>
 
-          <Form.Group className="mb-3" controlId="pulseRate-ind">
-            <Form.Label>Pulse Rate</Form.Label>
-            <Form.Control
-              type="pulseRate"
-              name="pulseRate"
-              autoComplete="pulseRate-ind"
-              required
-              aria-describedby="pulseRate-description"
-            />
-            <Form.Text id="pulseRate-description">
-              Please enter only the number of heart pulses indicated by the
-              nurse.
-            </Form.Text>
-          </Form.Group>
+              <Form.Group className="mb-3" controlId="respiratoryRate-ind">
+                <Form.Label>Respiratory Rate</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="respiratoryRate"
+                  autoComplete="respiratoryRate-ind"
+                  required
+                  aria-describedby="respiratoryRate-description"
+                />
+                <Form.Text id="respiratoryRate-description">
+                  Please enter your respiratory rate in breaths per minute.
+                </Form.Text>
+              </Form.Group>
 
-          {!loading && error && <Alert>{error}</Alert>}
-          <div className="text-center mb-3">
-            <Button type="submit" variant="primary">
-              Submit
-            </Button>
-          </div>
-          <p className="text-center">
-            By clicking submit you agree to our terms and conditions
-          </p>
-        </fieldset>
-      </Form>
+              {!loading && error && <Alert>{error}</Alert>}
+              <div className="text-center mb-3">
+                <Button type="submit" variant="primary">
+                  Submit
+                </Button>
+              </div>
+              <p className="text-center">
+                By clicking submit you agree to our terms and conditions
+              </p>
+            </fieldset>
+          </Form>
+        </>
+      ) : (
+        <SignIn />
+      )}
     </>
-        ) : (
-          <SignIn />
-        )}
-      </>
   );
 }

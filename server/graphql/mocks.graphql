@@ -6,7 +6,7 @@ type DailyINFOrmResult {
 }
 
 type Mutation {
-  dailyINFOrm(
+  mockDailyINFOrm(
     pulseRate: String!
     bloodPressure: String!
     weight: String!

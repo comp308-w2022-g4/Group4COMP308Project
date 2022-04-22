@@ -1,13 +1,13 @@
 const { User, DailyINFO } = require("../models");
 
 module.exports.dailyINFOrm = async (dailyINFO) => {
+  console.log(dailyINFO);
   const user = await User.findOne({
-    firstName: dailyINFO.firstName,
-    lastName: dailyINFO.lastName,
-    role: "PATIENT",
+    _id: dailyINFO.patient,
   });
+  console.log(user);
   if (user) {
-    return new dailyINFO({
+    return new DailyINFO({
       pulseRate: dailyINFO.pulseRate,
       bloodPressure: dailyINFO.bloodPressure,
       weight: dailyINFO.weight,
