@@ -1,39 +1,45 @@
-import { gql, useMutation } from "@apollo/client";
-import { useCallback, useState } from "react";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { useCallback, useState, useEffect } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
+import { SIGNED_IN_QUERY } from "../graphql/queries";
+import SignIn from "./SignIn";
+import { useHistory } from "react-router-dom";
 
-/** @type {typeof import("../graphql.gen").DailyInfOrmDocument} */
 const DAILYINFO_MUTATION = gql`
   mutation DailyINFOrm(
-    $pulseRate: String!
-    $bloodPressure: String!
-    $weight: String!
-    $temperature: String!
-    $respiratoryRate: String!
+    $pulseRate: String
+    $bloodPressure: String
+    $weight: String
+    $temperature: String
+    $respiratoryRate: String
   ) {
     dailyINFOrm(
+      generalInfo:{
       pulseRate: $pulseRate
       bloodPressure: $bloodPressure
       weight: $weight
       temperature: $temperature
       respiratoryRate: $respiratoryRate
+      }
     ) {
-      token
+      id
     }
   }
 `;
 
 export default function DailyINFOrm() {
-  const [dailyINFOrm, { loading }] = useMutation(DAILYINFO_MUTATION);
+  const signedIn = useQuery(SIGNED_IN_QUERY, { fetchPolicy: "cache-only" });
+  const [record, { loading }] = useMutation(DAILYINFO_MUTATION);
   const [error, setError] = useState("");
+  const history = useHistory();
 
-  /** @type {import("react").FormEventHandler<HTMLFormElement>} */
+  
   const onSubmit = useCallback(
     async (ev) => {
       ev.preventDefault();
       setError("");
 
-      const form = new FormData(/** @type {HTMLFormElement} */ (ev.target));
+      const form = new FormData((ev.target));
       const pulseRate = form.get("pulseRate");
       const bloodPressure = form.get("bloodPressure");
       const weight = form.get("weight");
@@ -41,11 +47,12 @@ export default function DailyINFOrm() {
       const respiratoryRate = form.get("respiratoryRate");
 
       if (
-        !pulseRate ||
-        !bloodPressure ||
-        !weight ||
-        !temperature ||
-        !respiratoryRate
+        (form.get("pulseRate") != "" && !pulseRate) ||
+        (form.get("bloodPressure") && !bloodPressure) ||
+        (form.get("weight") && !weight) ||
+        (form.get("temperature") && !temperature) ||
+        (form.get("respiratoryRate") && !respiratoryRate)
+
       ) {
         setError("All fields are required.");
         return;
@@ -63,7 +70,7 @@ export default function DailyINFOrm() {
       }
 
       try {
-        const result = await dailyINFOrm({
+        const result = await record({
           variables: {
             pulseRate,
             bloodPressure,
@@ -78,9 +85,9 @@ export default function DailyINFOrm() {
           );
           return;
         }
-        if (result.data?.dailyINFOrm) {
+        if (result.data?.dailyINFOrm.id) {
           // TODO handle submit result
-          console.log(result.data.dailyINFOrm.token);
+          history.replace("/");
         } else {
           setError("Invalid values.");
         }
@@ -88,11 +95,16 @@ export default function DailyINFOrm() {
         setError("Oops, something went wrong.");
       }
     },
-    [dailyINFOrm]
+    [signedIn.data?.whoAmI?.id, history, record]
   );
 
   return (
     <>
+      {signedIn.loading ? (
+        <p>Loading...</p>
+      ) : signedIn.data?.whoAmI?.id ? (
+        <>
+
       <h1 className="mb-5">Daily Information</h1>
       <Form
         method="post"
@@ -186,5 +198,9 @@ export default function DailyINFOrm() {
         </fieldset>
       </Form>
     </>
+        ) : (
+          <SignIn />
+        )}
+      </>
   );
 }
